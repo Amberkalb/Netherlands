@@ -1,0 +1,46 @@
+---
+title: "Tidy Netherlands"
+author: "Amber Kalb"
+date: "3/18/2017"
+output: html_document
+---
+
+
+
+```{r, include=TRUE}
+library(dplyr)
+library(reshape2)
+library(ggplot2) 
+
+new_neth$id <- rownames(new_neth) 
+melt(new_neth)
+
+new_neth$variable <- NULL
+head(new_neth)
+
+New_Neth2<- new_neth
+
+New_Neth2 <- New_Neth2[c("id", "Year", "Region", "Party", "Alignment", "Votes N", "Votes %")]
+
+write.csv(New_Neth2, file="New_Neth2.csv")
+```
+
+```{r}
+new_neth %>% 
+  count(Year, Party, `Votes N`, Region) %>% 
+  ggplot(aes(x = Year, y =`Votes N`, color = Party)) +
+  geom_smooth() 
+
+
+  
+```
+#I need to figure out how to delete the 107 empty columns
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
