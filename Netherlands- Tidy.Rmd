@@ -39,6 +39,7 @@ New_Neth2%>%
   theme_minimal() +
   theme(legend.position = "bottom")
 ```
+#So in this visualization we have two parties in 2012 elections really taking off: Pvda (centre left) and the VVD(centre right)
 
 ```{r}
 
@@ -49,16 +50,20 @@ Neth_Align <- New_Neth2%>%
   group_by(Year) %>% 
   mutate(Total_Votes = sum(Votes)) %>% 
   mutate(Percent_votes = Votes / Total_Votes)
+  write.csv(Neth_Align, file="Neth_Align.csv")
+
 
 
   ggplot(Neth_Align, aes(x = Year, y = Percent_votes, color = Alignment)) +
-  geom_line()+
+  geom_line()+ geom_point()
   labs(title = "Party competition in the Netherlands",
        x = NULL, y = "Percentage of vote") +
   theme_minimal() +
   theme(legend.position = "bottom") 
  
 ```
+# So the centre is losing voters, they are polarizing to centre left or right, meanwhile the alt-factions are moving towards the center. Looking at the Party graph you can see that the shift is in relation to the VVD and the Pvda parties.
+
 ```{r}
 New_Neth2%>%
   group_by(Year, Party, Region) %>%
@@ -85,16 +90,39 @@ New_Neth2%>%
 ```
 
 ```{r}
-ggplot(New_Neth2, aes(x=Year)) + 
-  geom_area(aes(y=+uempmed, fill="psavert")) + 
-  geom_area(aes(y=uempmed, fill="uempmed")) + 
+ggplot(Neth_Align,aes(x= Year, y = Percent_votes, group = Alignment, fill=Alignment)) + geom_area(position="identity",alpha=.5)
 ```
 # Embedded Plots
 
 ```{r pressure, echo=FALSE}
-new_neth %>% 
-  count(Year, Party, `Votes N`, Region) %>% 
-  ggplot(aes(x = Year, y =`Votes N`, color = Party)) +
-  geom_smooth() 
+p <- ggplot(Neth_Align, aes(x= Year, y= Percent_votes,fill= Alignment)) 
+p + geom_bar(stat="identity")
 ```
+```{r}
+Stacked_Align<- ggplot(Neth_Align, aes(x= Year, y= Percent_votes)) + 
+  geom_area(aes(fill= Alignment, group = Alignment), position='stack') + scale_fill_brewer()
+
+Stacked_Align
+```
+
+```{r}
+Neth_Party<- New_Neth2%>%
+  filter(Region == "Netherlands") %>%
+  group_by(Year, Party) %>% 
+  summarise(Votes = sum(`Votes N`, na.rm = TRUE)) %>% 
+  group_by(Year) %>% 
+  mutate(Total_Votes = sum(Votes)) %>% 
+  mutate(Percent_votes = Votes / Total_Votes) 
+  
+ write.csv(Neth_Party, file="Neth_Party.csv")
+
+ Neth_Party %>% 
+   group_by(Year, Party) %>% 
+ggplot(aes(x= Year, y= Percent_votes)) + 
+  geom_area(aes(fill= Party, group = Party), position='stack') + scale_fill_brewer() %>% View()
+
+
+
+```
+
 
