@@ -1,0 +1,35 @@
+---
+title: "Tidy Netherlands"
+author: "Amber Kalb"
+date: "3/18/2017"
+output: html_document
+---
+
+
+
+```{r, include=TRUE}
+library(dplyr)
+library(reshape2)
+library(ggplot2) 
+new_neth
+```
+
+```{r}
+new_neth %>% 
+  count(Year, Party, `Votes N`, Region) %>% 
+  ggplot(aes(x = Year, y =`Votes N`, color = Party)) +
+  geom_smooth() 
+
+
+  
+```
+#I need to figure out how to delete the 107 empty columns
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
