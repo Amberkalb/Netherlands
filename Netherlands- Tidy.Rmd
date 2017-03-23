@@ -23,24 +23,78 @@ New_Neth2<- new_neth
 New_Neth2 <- New_Neth2[c("id", "Year", "Region", "Party", "Alignment", "Votes N", "Votes %")]
 
 write.csv(New_Neth2, file="New_Neth2.csv")
+
+
+```
+## Exploratory Plots
+
+```{r}
+New_Neth2%>%
+  filter(Region == "Netherlands") %>%
+  group_by(Year, Party, Region) %>%
+  ggplot(aes(x = Year, y = `Votes N`, color = Party)) +
+  geom_line()+
+  labs(title = "Party competition in the Netherlands",
+       x = NULL, y = "Percentage of vote") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
 
 ```{r}
+
+Neth_Align <- New_Neth2%>%
+  filter(Region == "Netherlands") %>%
+  group_by(Year, Region, Alignment) %>% 
+  summarise(Votes = sum(`Votes N`, na.rm = TRUE)) %>% 
+  group_by(Year) %>% 
+  mutate(Total_Votes = sum(Votes)) %>% 
+  mutate(Percent_votes = Votes / Total_Votes)
+
+
+  ggplot(Neth_Align, aes(x = Year, y = Percent_votes, color = Alignment)) +
+  geom_line()+
+  labs(title = "Party competition in the Netherlands",
+       x = NULL, y = "Percentage of vote") +
+  theme_minimal() +
+  theme(legend.position = "bottom") 
+ 
+```
+```{r}
+New_Neth2%>%
+  group_by(Year, Party, Region) %>%
+  ggplot(aes(x = Year, y = `Votes %`, color = Party)) +
+  geom_line()+
+  labs(title = "Party competition in the Netherlands",
+       x = NULL, y = "Percentage of vote") +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  facet_wrap(~ Region, ncol = 5)
+```
+
+```{r}
+New_Neth2%>%
+  filter(Party == c("PVV", "VVD")) %>%
+  group_by(Year, Party, Region) %>%
+  ggplot(aes(x = Year, y = `Votes %`, color = Region)) +
+  geom_line()+
+  labs(title = "Party competition in the Netherlands",
+       x = NULL, y = "Percentage of vote") +
+  theme_minimal() +
+  theme(legend.position = "bottom") + 
+  facet_wrap(~ Party)
+```
+
+```{r}
+ggplot(New_Neth2, aes(x=Year)) + 
+  geom_area(aes(y=+uempmed, fill="psavert")) + 
+  geom_area(aes(y=uempmed, fill="uempmed")) + 
+```
+# Embedded Plots
+
+```{r pressure, echo=FALSE}
 new_neth %>% 
   count(Year, Party, `Votes N`, Region) %>% 
   ggplot(aes(x = Year, y =`Votes N`, color = Party)) +
   geom_smooth() 
-
-
-  
-```
-#I need to figure out how to delete the 107 empty columns
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
