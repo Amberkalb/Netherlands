@@ -121,8 +121,19 @@ Neth_Party<- New_Neth2%>%
 ggplot(aes(x= Year, y= Percent_votes)) + 
   geom_area(aes(fill= Party, group = Party), position='stack') + scale_fill_brewer() %>% View()
 
+```
+
+#So I really like this visualization due to the facr that you can really see were 
+
+
+```{r}
+install.packages("portfolio")
+library(portfolio)
+map.market(id=New_Neth2$id, area=New_Neth2$Party, group=New_Neth2$Region, color=data$Alignment, main="FlowingData Map")
 
 
 ```
+
+
 
 
