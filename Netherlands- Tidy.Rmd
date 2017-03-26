@@ -7,7 +7,7 @@ output: html_document
 
 
 
-```{r, include=TRUE}
+```{r, echo=FALSE}
 library(dplyr)
 library(reshape2)
 library(ggplot2) 
@@ -17,6 +17,10 @@ melt(new_neth)
 
 new_neth$variable <- NULL
 head(new_neth)
+```
+
+
+```{r, echo=FALSE}
 
 New_Neth2<- new_neth
 
@@ -32,7 +36,7 @@ write.csv(New_Neth2, file="New_Neth2.csv")
 New_Neth2%>%
   filter(Region == "Netherlands") %>%
   group_by(Year, Party, Region) %>%
-  ggplot(aes(x = Year, y = `Votes N`, color = Party)) +
+  ggplot(aes(x = Year, y = `Votes %`, color = Party)) +
   geom_line()+
   labs(title = "Party competition in the Netherlands",
        x = NULL, y = "Percentage of vote") +
@@ -41,7 +45,7 @@ New_Neth2%>%
 ```
 #So in this visualization we have two parties in 2012 elections really taking off: Pvda (centre left) and the VVD(centre right)
 
-```{r}
+```{r, echo=FALSE}
 
 Neth_Align <- New_Neth2%>%
   filter(Region == "Netherlands") %>%
@@ -52,14 +56,11 @@ Neth_Align <- New_Neth2%>%
   mutate(Percent_votes = Votes / Total_Votes)
   write.csv(Neth_Align, file="Neth_Align.csv")
 
-
-
   ggplot(Neth_Align, aes(x = Year, y = Percent_votes, color = Alignment)) +
-  geom_line()+ geom_point()
+  geom_line()+ geom_point()+
   labs(title = "Party competition in the Netherlands",
-       x = NULL, y = "Percentage of vote") +
-  theme_minimal() +
-  theme(legend.position = "bottom") 
+       x = "Year", y = "Percentage of vote") +
+  theme_minimal() 
  
 ```
 # So the centre is losing voters, they are polarizing to centre left or right, meanwhile the alt-factions are moving towards the center. Looking at the Party graph you can see that the shift is in relation to the VVD and the Pvda parties.
@@ -127,10 +128,6 @@ ggplot(aes(x= Year, y= Percent_votes)) +
 
 
 ```{r}
-install.packages("portfolio")
-library(portfolio)
-map.market(id=New_Neth2$id, area=New_Neth2$Party, group=New_Neth2$Region, color=data$Alignment, main="FlowingData Map")
-
 
 ```
 

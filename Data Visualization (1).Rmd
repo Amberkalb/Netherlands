@@ -1,0 +1,59 @@
+---
+title: "Netherlands: Parliamentary Elections, 1994-2012"
+author: "Amber C. Kalb"
+date: "3/25/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(reshape2)
+library(ggplot2) 
+New_Neth2 <- read_csv("New_Neth2.csv")
+```
+
+### The Rise of Populism in Netherlands' Parliament
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For access to the original data see the [European Election Database](http://eed.nsd.uib.no/webview/index.jsp?study=http%3A%2F%2F129.177.90.166%3A80%2Fobj%2FfStudy%2Fnedpa2012&mode=cube&v=2&cube=http%3A%2F%2F129.177.90.166%3A80%2Fobj%2FfCube%2Fnedpa2012_C1&top=yes)
+
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+### Polarization of the Centre
+
+```{r, echo=FALSE}
+Neth_Align <- New_Neth2%>%
+  filter(Region == "Netherlands") %>%
+  group_by(Year, Region, Alignment) %>% 
+  summarise(Votes = sum(`Votes N`, na.rm = TRUE)) %>% 
+  group_by(Year) %>% 
+  mutate(Total_Votes = sum(Votes)) %>% 
+  mutate(Percent_votes = Votes / Total_Votes)
+  write.csv(Neth_Align, file="Neth_Align.csv")
+
+  ggplot(Neth_Align, aes(x = Year, y = Percent_votes, color = Alignment)) +
+  geom_line()+ geom_point()+
+  labs(title = "Netherlands: Parliamentary Elections by Political Alignment (1994-2012)",
+       x = "Year", y = "Percentage of Vote") +
+  theme_minimal()+ theme(legend.position = "bottom") 
+```
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE, warning=FALSE}
+New_Neth2%>%
+  filter(Region == "Netherlands") %>%
+  group_by(Year, Party, Region) %>%
+  ggplot(aes(x = Year, y = `Votes %`, color = Party)) +
+  geom_line()+
+  labs(title = "Netherlands: Parliamentary Elections by Party (1994-2012)",
+       x = NULL, y = "Percentage of Vote") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
