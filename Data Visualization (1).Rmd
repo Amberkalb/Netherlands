@@ -21,6 +21,7 @@ In the postcolonial era, a national policy of multiculturalism was adopted by th
 
 
 ```{r, echo=FALSE}
+library(scales)
 Neth_Align <- New_Neth2%>%
   filter(Region == "Netherlands") %>%
   group_by(Year, Region, Alignment) %>% 
@@ -32,7 +33,7 @@ Neth_Align <- New_Neth2%>%
 
   ggplot(Neth_Align, aes(x = Year, y = Percent_votes, color = Alignment)) +
   geom_line()+ geom_point()+
-  labs(title = "Netherlands: Parliamentary Elections by Political Alignment (1994-2012)", subtitle = "Figure One", x = "Year", y = "Percentage of Vote") +
+  labs(title = "Netherlands: Parliamentary Elections by Political Alignment (1994-2012)", subtitle = "Figure One", x = "Year", y = "Percentage of Vote") + scale_y_continuous(labels=percent) +
   theme_minimal()+ theme(legend.position = "bottom") 
 ```
 
@@ -49,7 +50,7 @@ Neth_parties <- New_Neth2%>%
   ggplot(aes(x = Year, y = `Votes %`, color = Party)) +
   geom_line()+
   labs(title = "Netherlands: Parliamentary Elections by Party (1994-2012)", subtitle = "Figure Two",
-       x = "Year", y = "Percentage of Vote") +
+       x = "Year", y = "Percentage of Vote") + 
   theme_minimal() +
   theme(legend.position = "bottom")
 
