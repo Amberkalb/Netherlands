@@ -14,14 +14,10 @@ library(ggplot2)
 New_Neth2 <- read_csv("New_Neth2.csv")
 ```
 
-### The Rise of Populism in Netherlands' Parliament
+### The Rise of Right in Netherlands' Parliament
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For access to the original data see the [European Election Database](http://eed.nsd.uib.no/webview/index.jsp?study=http%3A%2F%2F129.177.90.166%3A80%2Fobj%2FfStudy%2Fnedpa2012&mode=cube&v=2&cube=http%3A%2F%2F129.177.90.166%3A80%2Fobj%2FfCube%2Fnedpa2012_C1&top=yes)
+In the postcolonial era, a national policy of multiculturalism was adopted by the Dutch government after waves of immigration from former colonies, Southern and Eastern European, as well as Middle-Eastern countries, increasingly diversified country's population. While the 1990's brought about an emphasis on assimilation policies, Netherlands' national political of muliculturalism became a point of contention and condestation after the murders of Pim Fortuyn (in 2002) and Theo van Gogh (in 2004). Further compounding xenophobic attitudes in the Netherlands, and the EU in general, was the subsequent Euro and Immigration Crises of 2009 and 2011, respectively. Economic and political turmoil further strained the government's ability to financially and publically support a national agenda centered on multicultural policies. This eroding popularity of leftist policies is illustrated in the chart below (Figure 1). The following tables chart the Parliamentary elections in the Netherlands for almost two decades (1994-2012) by political alignment and party. For access to the original data see the [European Election Database](http://eed.nsd.uib.no/webview/index.jsp?study=http%3A%2F%2F129.177.90.166%3A80%2Fobj%2FfStudy%2Fnedpa2012&mode=cube&v=2&cube=http%3A%2F%2F129.177.90.166%3A80%2Fobj%2FfCube%2Fnedpa2012_C1&top=yes).
 
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-### Polarization of the Centre
 
 ```{r, echo=FALSE}
 Neth_Align <- New_Neth2%>%
@@ -35,12 +31,12 @@ Neth_Align <- New_Neth2%>%
 
   ggplot(Neth_Align, aes(x = Year, y = Percent_votes, color = Alignment)) +
   geom_line()+ geom_point()+
-  labs(title = "Netherlands: Parliamentary Elections by Political Alignment (1994-2012)",
+  labs(title = "Netherlands: Parliamentary Elections by Political Alignment (1994-2012)", sub = "Figure One",
        x = "Year", y = "Percentage of Vote") +
   theme_minimal()+ theme(legend.position = "bottom") 
 ```
 
-You can also embed plots, for example:
+From 1994 through 2002, the majority of ballots cast during Dutch Parliamentary elections were overwhelmingly in support of moderate parties (centre, centre-left, centre-right). The 2006 elections mark a definite shift in voter trends away from moderate party alignment in favor of greater support of far-right and far-left factions. This same election year, representation of right-wing parties, by far, the least represented political alignment in the Dutch Parliament, gains a negotiable amount of seats. If we look at figure two below, we can see that the substantial increase in voter support of the far-right is likely due to the emergence of the People's Freedom Party (PVV) in 2006. While the increasing polarization in ideological alignment through 2010 is not particularly surprising given economic, political and social climate in the Netherlands (see above), the election results in 2012 *are*. In terms of political alignment (Figure 1), the increasing popularity and predominance of the PVV and the VVD in recent Dutch parliamentary elections suggest that voter trends would steadily increase, yet we see a marked hiccup in the 2012 elections. For less ambiguity, let's turn to the graph below to locate voting shifts along party lines.   
 
 ```{r pressure, echo=FALSE, warning=FALSE}
 New_Neth2%>%
@@ -54,6 +50,25 @@ New_Neth2%>%
   theme(legend.position = "bottom")
 ```
 
+When examining the graph above, the reader might notice a decrease in support of far right and left parties such as the PVV, the GL and the SP, along with the main moderate (centre) party, the CDA. The centre-right and centre-left parties, the VVD and the PvdA, repectively, command almost 30% of the vote apiece. An explanation of this polarization of the centre requires a little research outside the purview of the data to account for this dramatic shift in voting trends. 
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The emergency election of 2012 occurred on account of the majority party's (VVD) to garner support for austeriety measures under the _Fiscal Compact_. Subsequently, the coalition government was dissolved and required a new election to reconstitute the House of Representatives. The party alignments was as such: VVD, CDA, D66 and GL in favor of austerity measures, while the opposition coalition consisted of PVV, CU and SP. 
+
+While this make up does not address all voter trends shown in the data, such as decreasing support for the GL following the election, the data does bring to light party dynamics hinting towards more nuanced understanding of Dutch politics beyond that of party alignment which can be often overlooked if you are coming from an American bipartisan perspective rather than a multi-party system representated in a coalition government.
+
+```{r, echo=FALSE, warning= FALSE}
+New_Neth2%>%
+  filter(Party == "PVV") %>%
+  group_by(Year, Party, Region) %>%
+  ggplot(aes(x = Year, y = `Votes %`, color = Region)) +
+  geom_line()+
+  labs(title = "Votes for the PVV by Region",
+       x = "Year", y = "Percentage of Vote", legend = "Region") +
+  theme_minimal() +
+  theme(legend.position = "bottom") 
+  
+```
+
+
+
 
