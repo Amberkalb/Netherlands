@@ -79,15 +79,15 @@ New_Neth2%>%
 
 ```{r}
 New_Neth2%>%
-  filter(Party == c("PVV", "VVD")) %>%
+  filter(Party == "PVV") %>%
   group_by(Year, Party, Region) %>%
   ggplot(aes(x = Year, y = `Votes %`, color = Region)) +
   geom_line()+
-  labs(title = "Party competition in the Netherlands",
-       x = NULL, y = "Percentage of vote") +
+  labs(title = "Votes for the PVV by Region",
+       x = "Year", y = "Percentage of Vote", legend = "Region") +
   theme_minimal() +
-  theme(legend.position = "bottom") + 
-  facet_wrap(~ Party)
+  theme(legend.position = "bottom") 
+  
 ```
 
 ```{r}
@@ -100,10 +100,13 @@ p <- ggplot(Neth_Align, aes(x= Year, y= Percent_votes,fill= Alignment))
 p + geom_bar(stat="identity")
 ```
 ```{r}
+
+
 Stacked_Align<- ggplot(Neth_Align, aes(x= Year, y= Percent_votes)) + 
   geom_area(aes(fill= Alignment, group = Alignment), position='stack') + scale_fill_brewer()
 
-Stacked_Align
+Stacked_Align  
+  
 ```
 
 ```{r}
@@ -127,9 +130,20 @@ ggplot(aes(x= Year, y= Percent_votes)) +
 #So I really like this visualization due to the facr that you can really see were 
 
 
-```{r}
 
+```{r, echo=FALSE,   warning= FALSE}
+New_Neth2%>%
+  filter(Party == "PVV") %>%
+  group_by(Year, Party, Region) %>%
+  ggplot(aes(x = Year, y = `Votes %`, color = Region)) +
+  geom_line()+
+  labs(title = "Votes for the PVV by Region",
+       x = "Year", y = "Percentage of Vote", legend = "Region") +
+  theme_minimal() +
+  theme(legend.position = "bottom") 
+  
 ```
+
 
 
 
