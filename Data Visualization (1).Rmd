@@ -12,6 +12,7 @@ library(readr)
 library(dplyr)
 library(reshape2)
 library(ggplot2) 
+library(scales)
 New_Neth2 <- read_csv("New_Neth2.csv")
 ```
 
@@ -21,7 +22,7 @@ In the postcolonial era, a national policy of multiculturalism was adopted by th
 
 
 ```{r, echo=FALSE}
-library(scales)
+
 Neth_Align <- New_Neth2%>%
   filter(Region == "Netherlands") %>%
   group_by(Year, Region, Alignment) %>% 
